@@ -5,6 +5,8 @@ import {
   OAuthRequestDialog,
   SidebarPage,
   createRouteRef,
+  githubAuthApiRef,
+  SignInPage,
 } from '@backstage/core';
 import { apis } from './apis';
 import * as plugins from './plugins';
@@ -20,6 +22,24 @@ import { EntityPage } from './components/catalog/EntityPage';
 const app = createApp({
   apis,
   plugins: Object.values(plugins),
+  components: {
+    SignInPage: props => {
+      return (
+        <SignInPage
+          {...props}
+          providers={[
+            {
+              id: 'github-auth-provider',
+              title: 'GitHub',
+              message: 'Simple Backstage Application Login',
+              apiRef: githubAuthApiRef,
+            },
+          ]}
+          align="center"
+        />
+      );
+    },
+  },
 });
 
 const AppProvider = app.getProvider();
